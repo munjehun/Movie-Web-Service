@@ -1,25 +1,140 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
   <body>
     <div id="root"></div>
+    <!-- 유일하게 쓰이는 HTML? -->
   </body>
+  <!-- React 엔진 -->
   <script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script>
+  <!-- React를 HTML에 그리기 -->
   <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
+  <!-- Babel : JSX를 JS로 변환-->
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <script type="text/babel">
-    const root = document.getElementById("root");
-    function App() {
-      const [counter, modifier] = React.useState(0);
-      const counter = data[0];
-      const modifier = data[1];
-      console.log(data);
+    function MinutesToHours() {
+      const [minutes, setMinutes] = React.useState();
+      const [hours, setHours] = React.useState();
+      const [fliped, setFliped] = React.useState(true);
+      //useState()를 사용하면 해당 컴포넌트 자체가 리렌더링
+
       return (
         <div>
-          <h3>Total clicks : 0</h3>
-          <button>Click me</button>
+          <h3>시간 계산기</h3>
+          <div>
+            <label htmlFor="minutes">Minutes</label>
+            <input
+              value={fliped ? minutes : hours * 60}
+              onChange={(e) => setMinutes(e.target.value)}
+              id="minutes"
+              placeholder="Minutes"
+              type="number"
+              disabled={!fliped}
+            />
+          </div>
+          <div>
+            <label htmlFor="hours">Hours</label>
+            <input
+              value={fliped ? Math.round(minutes / 60) : hours}
+              onChange={(e) => setHours(e.target.value)}
+              id="hours"
+              placeholder="Hours"
+              type="number"
+              disabled={fliped}
+            />
+          </div>
+          <button
+            onClick={() => {
+              setMinutes(""), setHours("");
+            }}
+          >
+            Reset
+          </button>
+          <button
+            onClick={() => {
+              setMinutes(""), setHours(""), setFliped((i) => !i);
+            }}
+          >
+            Flip
+          </button>
         </div>
       );
     }
-    ReactDOM.render(<App />, root);
+
+    function KmToMiles() {
+      const [kilometers, setKilometers] = React.useState();
+      const [miles, setMiles] = React.useState();
+      const [fliped, setFliped] = React.useState(true);
+      //useState()를 사용하면 해당 컴포넌트 자체가 리렌더링
+
+      return (
+        <div>
+          <h3>거리 계산기</h3>
+          <div>
+            <input
+              value={fliped ? kilometers : miles * 1.6}
+              onChange={(e) => setKilometers(e.target.value)}
+              id="km"
+              placeholder="kilometers"
+              type="number"
+              disabled={!fliped}
+            />
+            <label htmlFor="km">Km</label>
+          </div>
+          <div>
+            <input
+              value={fliped ? kilometers * 0.62 : miles}
+              onChange={(e) => setMiles(e.target.value)}
+              id="miles"
+              placeholder="miles"
+              type="number"
+              disabled={fliped}
+            />
+            <label htmlFor="miles">Miles</label>
+          </div>
+          <button
+            onClick={() => {
+              setKilometers(""), setMiles("");
+            }}
+          >
+            Reset
+          </button>
+          <button
+            onClick={() => {
+              setKilometers(""), setMiles(""), setFliped((i) => !i);
+            }}
+          >
+            Flip
+          </button>
+        </div>
+      );
+    }
+
+    function App() {
+      const [index, setIndex] = React.useState("0");
+
+      const onSelect = (e) => {
+        setIndex(e.target.value);
+      };
+      return (
+        <div>
+          <h1>Super Converter</h1>
+          <select value={index} onChange={onSelect}>
+            <option value="0">시간</option>
+            <option value="1">거리</option>
+          </select>
+          <hr />
+          {index == 0 ? <MinutesToHours /> : <KmToMiles />}
+        </div>
+      );
+    }
+
+    const root = document.getElementById("root"); //유일하게 쓰이는 JS문법?
+    ReactDOM.render(<App />, root); //Container 컴포넌트를 root에 렌더한다.
   </script>
 </html>
