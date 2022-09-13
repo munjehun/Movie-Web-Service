@@ -17,119 +17,33 @@
   <!-- Babel : JSX를 JS로 변환-->
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <script type="text/babel">
-    function MinutesToHours() {
-      const [minutes, setMinutes] = React.useState();
-      const [hours, setHours] = React.useState();
-      const [fliped, setFliped] = React.useState(true);
-      //useState()를 사용하면 해당 컴포넌트 자체가 리렌더링
-
+    function Btn({ content, onclick }) {
+      console.log(content);
       return (
-        <div>
-          <h3>시간 계산기</h3>
-          <div>
-            <label htmlFor="minutes">Minutes</label>
-            <input
-              value={fliped ? minutes : hours * 60}
-              onChange={(e) => setMinutes(e.target.value)}
-              id="minutes"
-              placeholder="Minutes"
-              type="number"
-              disabled={!fliped}
-            />
-          </div>
-          <div>
-            <label htmlFor="hours">Hours</label>
-            <input
-              value={fliped ? Math.round(minutes / 60) : hours}
-              onChange={(e) => setHours(e.target.value)}
-              id="hours"
-              placeholder="Hours"
-              type="number"
-              disabled={fliped}
-            />
-          </div>
-          <button
-            onClick={() => {
-              setMinutes(""), setHours("");
-            }}
-          >
-            Reset
-          </button>
-          <button
-            onClick={() => {
-              setMinutes(""), setHours(""), setFliped((i) => !i);
-            }}
-          >
-            Flip
-          </button>
-        </div>
+        <button
+          style={{
+            backgroundColor: "tomato",
+            color: "white",
+            padding: "10px 20px",
+            border: 0,
+            borderRadius: 10,
+          }}
+          onClick={onclick}
+        >
+          {content}
+        </button>
       );
     }
 
-    function KmToMiles() {
-      const [kilometers, setKilometers] = React.useState();
-      const [miles, setMiles] = React.useState();
-      const [fliped, setFliped] = React.useState(true);
-      //useState()를 사용하면 해당 컴포넌트 자체가 리렌더링
-
-      return (
-        <div>
-          <h3>거리 계산기</h3>
-          <div>
-            <input
-              value={fliped ? kilometers : miles * 1.6}
-              onChange={(e) => setKilometers(e.target.value)}
-              id="km"
-              placeholder="kilometers"
-              type="number"
-              disabled={!fliped}
-            />
-            <label htmlFor="km">Km</label>
-          </div>
-          <div>
-            <input
-              value={fliped ? kilometers * 0.62 : miles}
-              onChange={(e) => setMiles(e.target.value)}
-              id="miles"
-              placeholder="miles"
-              type="number"
-              disabled={fliped}
-            />
-            <label htmlFor="miles">Miles</label>
-          </div>
-          <button
-            onClick={() => {
-              setKilometers(""), setMiles("");
-            }}
-          >
-            Reset
-          </button>
-          <button
-            onClick={() => {
-              setKilometers(""), setMiles(""), setFliped((i) => !i);
-            }}
-          >
-            Flip
-          </button>
-        </div>
-      );
-    }
+    const MemorizedBtn = React.memo(Btn); //내용이 변하는 컴포넌트만 리렌더링
 
     function App() {
-      const [index, setIndex] = React.useState("0");
-
-      const onSelect = (e) => {
-        setIndex(e.target.value);
-      };
+      const [value, setValue] = React.useState("Save Changes");
+      const changeValue = () => setValue("Revert Changes");
       return (
         <div>
-          <h1>Super Converter</h1>
-          <select value={index} onChange={onSelect}>
-            <option value="0">시간</option>
-            <option value="1">거리</option>
-          </select>
-          <hr />
-          {index == 0 ? <MinutesToHours /> : <KmToMiles />}
+          <MemorizedBtn content={value} onclick={changeValue} />
+          <MemorizedBtn content="Confirm" />
         </div>
       );
     }
