@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
+import Movie from "../components/Movie";
 
-export default function App() {
+function Home() {
   const [loading, setLoading] = useState(true);
   const [movies, setMovies] = useState([]);
 
+  // axios로 해보기!!
   const getMovies = async () => {
     const res = await fetch(
       `https://yts.mx/api/v2/list_movies.json?minimum_rating=8.5&sort_by=year`
@@ -25,19 +27,19 @@ export default function App() {
       ) : (
         <div>
           {movies.map((mv) => (
-            <div key={mv.id}>
-              <img src={mv.medium_cover_image} alt="cover image" />
-              <h2>{mv.title}</h2>
-              <p>{mv.summary}</p>
-              <ul>
-                {mv.genres.map((genre) => (
-                  <li key={genre}>{genre}</li>
-                ))}
-              </ul>
-            </div>
+            <Movie
+              key={mv.id}
+              id={mv.id}
+              coverImg={mv.medium_cover_image}
+              title={mv.title}
+              summary={mv.summary}
+              genres={mv.genres}
+            />
           ))}
         </div>
       )}
     </div>
   );
 }
+
+export default Home;
