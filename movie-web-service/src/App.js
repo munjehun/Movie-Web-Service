@@ -7,7 +7,7 @@ export default function App() {
     <Router>
       <Routes>
         {/* 하나의 Route만 보여주기 위해 Routes 사용 */}
-        <Route path="/" element={<Home />} />
+        <Route path={`${process.env.PUBLIC_URL}/`} element={<Home />} />
         <Route path="/movie/:id" element={<Detail />} />
       </Routes>
     </Router>

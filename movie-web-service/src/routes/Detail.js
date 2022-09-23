@@ -18,9 +18,6 @@ function Detail() {
     getMovie();
   }, []);
 
-  console.log(mv);
-  console.log(mv.genres);
-
   return (
     <div>
       {mv.length !== 0 ? (
@@ -35,7 +32,7 @@ function Detail() {
           </ul>
         </>
       ) : (
-        "영화 정보 받아오는 중"
+        <h2>영화 상세정보 받아오는 중</h2>
       )}
     </div>
   );
